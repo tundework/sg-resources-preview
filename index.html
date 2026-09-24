@@ -59,6 +59,71 @@ p{margin:0}
 :root[data-theme="dark"] .logo-chip{background:#fff;padding:6px 10px}
 @media (max-width:480px){.logo .word{height:24px}.logo .mark{height:36px}}
 
+/* WhatsApp */
+:root{--wa:#0B7A3E;--wa-hover:#075E30}
+.wa-ico{width:1.25em;height:1.25em;flex:none}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:var(--wa-hover);border-color:var(--wa-hover);color:#fff}
+.wa-float{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#fff;text-decoration:none;font:700 15px/1 var(--body);padding:13px 18px;border-radius:40px;box-shadow:0 10px 30px -10px rgba(0,0,0,.55)}
+.wa-float:hover{background:var(--wa-hover)}
+.util a.wa-link{color:#7EE2A8;text-decoration:none;font-weight:600}
+.util a.wa-link:hover{text-decoration:underline}
+.mbar{display:none}
+@media (max-width:640px){
+  .wa-float{display:none}
+  .mbar{display:grid;grid-template-columns:1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:45;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));gap:8px;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -8px 24px -12px rgba(0,0,0,.35)}
+  .mbar a{display:flex;align-items:center;justify-content:center;gap:8px;font:700 15px/1 var(--body);text-decoration:none;padding:13px 10px;border-radius:4px}
+  .mbar .call{background:var(--plum);color:#fff}
+  .mbar .wa{background:var(--wa);color:#fff}
+  .notes-btn{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  footer{padding-bottom:96px}
+}
+
+/* other services line */
+.other-svc{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;padding:16px 20px;border:1px dashed var(--line);border-radius:6px;color:var(--muted);font-size:16px}
+.other-svc b{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.other-svc a{color:var(--orange-text);font-weight:600}
+
+/* export checklist */
+.guide{display:grid;grid-template-columns:1.25fr 1fr;gap:16px}
+@media (max-width:900px){.guide{grid-template-columns:1fr}}
+.guide .col{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:clamp(20px,3vw,32px)}
+.guide .col.dest{background:var(--tint)}
+.guide h3{font-size:30px;font-weight:700;text-transform:uppercase}
+.guide .where{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--orange-text);margin-bottom:10px}
+.checks{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:0}
+.checks li{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.checks li::before{content:"";width:20px;height:20px;border:2px solid var(--orange);border-radius:3px;margin-top:2px}
+.checks b{display:block;font-weight:600}
+.checks span{color:var(--muted);font-size:15.5px}
+.checks .src{font:500 11.5px/1.4 var(--mono);color:var(--muted)}
+.checks .src a{color:var(--orange-text)}
+.guide-foot{margin-top:16px;font-size:14px;color:var(--muted)}
+
+/* instagram band */
+.ig-band{margin-top:16px;border:1px solid var(--line);border-radius:6px;padding:clamp(20px,3vw,32px);display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between;background:var(--surface)}
+.ig-band h3{font-size:clamp(26px,3vw,34px);font-weight:700;text-transform:uppercase}
+.ig-band p{color:var(--muted);margin-top:6px;max-width:60ch}
+.ig-band .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ig-band .tags span{font:500 12px/1 var(--mono);border:1px solid var(--line);border-radius:30px;padding:7px 11px;color:var(--ink)}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+@media (max-width:860px){.faq{grid-template-columns:1fr}}
+.faq details{border-top:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:18px 0;font-weight:600;font-size:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:600 22px/1 var(--mono);color:var(--orange-text);flex:none}
+.faq details[open] summary::after{content:"–"}
+.faq details p{color:var(--muted);padding:0 0 18px;max-width:62ch}
+.faq summary:focus-visible{outline-offset:4px}
+
+.copy-like{font:600 14px/1 var(--mono);color:inherit;text-decoration:none;border-bottom:1px dashed currentColor}
+/* maps link */
+.dir{font:600 13px/1 var(--mono);color:var(--orange-text);text-decoration:none;margin-top:2px}
+.office.us .dir{color:var(--orange)}
+.dir:hover{text-decoration:underline}
+
 /* preview banner */
 .preview-bar{background:var(--orange);color:var(--on-orange);font-size:14px;line-height:1.4}
 .preview-bar .wrap{padding-block:9px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
@@ -276,7 +341,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
 <div class="util">
   <div class="wrap">
     <span>Stafford, TX (Houston) · Port Harcourt · Lagos</span>
-    <span>Office <b>281.969.5788</b> &nbsp;·&nbsp; <span class="em">Emergency <b>713.281.8657</b></span></span>
+    <span>Office <b>281.969.5788</b> &nbsp;·&nbsp; <span class="em">Emergency <b>713.281.8657</b></span> &nbsp;·&nbsp; <a class="wa-link" href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener">WhatsApp us</a></span>
   </div>
 </div>
 
@@ -289,7 +354,8 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
     <nav class="links" id="navlinks" aria-label="Main">
       <a href="#ways">How we ship</a>
       <a href="#services">Services</a>
-      <a href="#vehicles">Shipping a vehicle</a>
+      <a href="#vehicles">Shipping a car</a>
+      <a href="#faq">FAQ</a>
       <a href="#offices">Offices</a>
       <a href="#quote">Contact</a>
     </nav>
@@ -374,7 +440,6 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         <button class="tab" role="tab" id="t-prc" aria-controls="p-prc" aria-selected="false" tabindex="-1">Procurement &amp; sourcing</button>
         <button class="tab" role="tab" id="t-whs" aria-controls="p-whs" aria-selected="false" tabindex="-1">Warehousing</button>
         <button class="tab" role="tab" id="t-con" aria-controls="p-con" aria-selected="false" tabindex="-1">Construction</button>
-        <button class="tab" role="tab" id="t-mkt" aria-controls="p-mkt" aria-selected="false" tabindex="-1">Marketing, notary &amp; more</button>
       </div>
 
       <div class="panel" role="tabpanel" id="p-frt" aria-labelledby="t-frt">
@@ -475,27 +540,8 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         </div>
       </div>
 
-      <div class="panel" role="tabpanel" id="p-mkt" aria-labelledby="t-mkt" hidden>
-        <h3>Marketing, notary &amp; more</h3>
-        <div>
-          <p class="pitch">Services for small businesses and entrepreneurs, some of them our shipping clients.</p>
-          <p class="sub">Branding, websites and marketing for businesses such as shipping companies, restaurants and online stores. We also offer notary services and DOT drug testing.</p>
-          <div class="ctaline"><a class="btn primary" href="#quote" data-service="Marketing & other services">Get in touch</a></div>
-        </div>
-        <div>
-          <p class="listlabel">Services</p>
-          <ul>
-            <li>Social media marketing and content calendars</li>
-            <li>Logo design and brand kits</li>
-            <li>Websites on Shopify, Squarespace and Wix</li>
-            <li>Pitch decks, investor materials and grant writing</li>
-            <li>Email campaigns and CRM setup</li>
-            <li>Mobile and remote notary</li>
-            <li>DOT drug testing, onsite and mobile</li>
-          </ul>
-        </div>
-      </div>
     </div>
+    <p class="other-svc"><b>Also available</b> Marketing and branding · websites · pitch decks and grant writing · mobile notary · DOT drug testing <a href="#quote" data-service="Marketing & other services">Ask about these →</a></p>
   </div>
 </section>
 
@@ -519,6 +565,41 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
   </div>
 </section>
 
+<section class="block" id="guide">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Checklist</p>
+        <h2>Exporting a car from the U.S.</h2>
+      </div>
+      <p>What U.S. Customs needs before a used vehicle can leave the country, and what happens when it arrives. We'll help you get each document ready.</p>
+    </div>
+    <div class="guide">
+      <div class="col">
+        <p class="where">Before it leaves · U.S. requirements</p>
+        <h3>Documents &amp; filings</h3>
+        <ul class="checks">
+          <li><div><b>Original certificate of title</b><span>Or a certified copy, plus two copies. U.S. Customs requires the title for every vehicle export, whatever its value or condition.</span><p class="src">Source: <a href="https://www.cbp.gov/trade/basic-import-export/export-docs/motor-vehicle" target="_blank" rel="noopener">U.S. Customs and Border Protection</a></p></div></li>
+          <li><div><b>Lender or leasing company's permission, if there's a loan or lease</b><span>A letter saying the vehicle may be exported. We handle lien releases.</span><p class="src">Source: <a href="https://www.cbp.gov/trade/basic-import-export/export-docs/motor-vehicle" target="_blank" rel="noopener">CBP</a></p></div></li>
+          <li><div><b>Presented to Customs at least 72 hours before it sails</b><span>For sea and air exports, the documents and the vehicle must both reach Customs at least 72 hours before export. Plan around this deadline.</span><p class="src">Source: <a href="https://www.cbp.gov/trade/basic-import-export/export-docs/motor-vehicle" target="_blank" rel="noopener">CBP</a></p></div></li>
+          <li><div><b>Electronic Export Information (EEI) filed in AES</b><span>Required for every used vehicle, whatever its value or destination, and also due 72 hours before export. Ask us how it's filed for your shipment.</span><p class="src">Source: <a href="https://www.cbp.gov/document/faqs/exporting-used-self-propelled-vehicles" target="_blank" rel="noopener">CBP</a>, <a href="https://www.ecfr.gov/current/title-15/subtitle-B/chapter-I/part-30/subpart-A/section-30.2" target="_blank" rel="noopener">15 CFR 30.2</a></p></div></li>
+          <li><div><b>Usually also needed: bill of sale and your photo ID</b><span>Most carriers and terminals ask for these too.</span></div></li>
+        </ul>
+      </div>
+      <div class="col dest">
+        <p class="where">When it arrives · destination</p>
+        <h3>Duties &amp; clearance</h3>
+        <ul class="checks">
+          <li><div><b>Import duties and port charges</b><span>These are paid in the destination country, not in the U.S.</span></div></li>
+          <li><div><b>A licensed clearing agent</b><span>The agent clears the vehicle through customs. We help with the shipping documents and TELEX release.</span></div></li>
+          <li><div><b>Check the destination's rules before you buy</b><span>Age limits, banned items and required documents are set by each country and change from time to time. Ask us for the current rules for your port.</span></div></li>
+        </ul>
+      </div>
+    </div>
+    <p class="guide-foot">General information, not legal advice. U.S. requirements last checked September 2026.</p>
+  </div>
+</section>
+
 <section class="block">
   <div class="wrap">
     <div class="sec-head">
@@ -533,12 +614,47 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       <article><h3>Offices at both ends</h3><p>We have staff in Houston and in Nigeria, so you can reach someone on either side of the shipment.</p></article>
       <article><h3>You can talk to someone</h3><p>An account manager guides you through the shipping process. There's also an emergency line for urgent problems with a shipment.</p></article>
     </div>
+    <div class="ig-band">
+      <div>
+        <h3>See our shipments</h3>
+        <p>We post photos of the vehicles and cargo we ship, and reviews from customers, on Instagram.</p>
+        <div class="tags"><span>Shipping</span><span>Automobile</span><span>Review</span></div>
+      </div>
+      <a class="btn" href="https://www.instagram.com/sgresources.inc/" target="_blank" rel="noopener">Open @sgresources.inc</a>
+    </div>
     <div class="call-band">
       <div>
         <h3>Not sure what you need?</h3>
-        <p>Call and tell us what you're shipping and where it's going. We'll tell you what's involved before you commit to anything.</p>
+        <p>Call or WhatsApp us with what you're shipping and where it's going. We'll tell you what's involved before you commit to anything.</p>
+        <p style="margin-top:14px"><a class="btn wa" href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>Chat on WhatsApp</a></p>
       </div>
       <div class="num"><small>Houston office</small><button class="copy" data-copy="281.969.5788">281.969.5788</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">FAQ</p>
+        <h2>Common questions</h2>
+      </div>
+      <p>Can't find your question? Ask us on WhatsApp or call the Houston office.</p>
+    </div>
+    <div class="faq">
+      <div>
+        <details><summary>How long does shipping take?</summary><p>It depends on the route, the carrier's schedule and how you ship. Air cargo takes days, sea freight takes weeks. You'll get expected dates when you book.</p></details>
+        <details><summary>When is the next sailing?</summary><p>Schedules change, so ask us for the next dates and the cut-off date for your port. The cut-off is the last day we can receive your cargo for that sailing.</p></details>
+        <details><summary>Can I ship a car and goods together?</summary><p>Yes, in a shared (consolidated) container. What you can pack inside a vehicle depends on the carrier and the destination, so check with us first.</p></details>
+        <details><summary>Do you clear customs in Nigeria?</summary><p>We help with the shipping documents and TELEX release. Duties are paid and clearance is done at the destination port, by you or a licensed clearing agent.</p></details>
+      </div>
+      <div>
+        <details><summary>My car still has a loan on it. Can I export it?</summary><p>Only with written permission from the lender. U.S. Customs requires it. We can handle the lien release for you.</p></details>
+        <details><summary>Can you find a car for me to buy?</summary><p>Yes. Our dealership sources vehicles for buyers in Africa and overseas, and can title and ship them for you.</p></details>
+        <details><summary>What can't I ship?</summary><p>Some items are restricted or banned outright, such as hazardous materials and weapons, and every destination country has its own list of banned imports. Tell us what's in your shipment and we'll check.</p></details>
+        <details><summary>Can I get updates while my cargo is on its way?</summary><p>Yes. Ask your account manager at any point during the shipment.</p></details>
+      </div>
     </div>
   </div>
 </section>
@@ -561,8 +677,10 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         <p class="tz"><span>USA</span><span class="clock" data-tz="America/Chicago">—</span></p>
         <h3>Stafford, TX</h3>
         <address>2638 5th St., Ste. 15<br>Stafford, TX 77477</address>
+        <a class="dir" href="https://www.google.com/maps/search/?api=1&query=2638+5th+St+Ste+15%2C+Stafford%2C+TX+77477" target="_blank" rel="noopener">Open in Google Maps →</a>
         <div class="lines">
           <div><span>Office</span><button class="copy" data-copy="281.969.5788">281.969.5788</button></div>
+          <div><span>WhatsApp</span><a class="copy-like" href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener">Chat →</a></div>
           <div><span>Emergency</span><button class="copy" data-copy="713.281.8657">713.281.8657</button></div>
           <div><span>Fax</span><button class="copy" data-copy="281.969.5743">281.969.5743</button></div>
           <div><span>Email</span><button class="copy" data-copy="info@sgresourcesinc.com">info@sgresourcesinc.com</button></div>
@@ -572,16 +690,19 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         <p class="tz"><span>Nigeria</span><span class="clock" data-tz="Africa/Lagos">—</span></p>
         <h3>Port Harcourt</h3>
         <address>Close 7, Block 7, off Circular Road<br>Elekahia Estate, Port Harcourt<br>Rivers State</address>
+        <a class="dir" href="https://www.google.com/maps/search/?api=1&query=Elekahia+Estate%2C+Port+Harcourt%2C+Rivers+State%2C+Nigeria" target="_blank" rel="noopener">Open in Google Maps →</a>
       </div>
       <div class="office">
         <p class="tz"><span>Nigeria</span><span class="clock" data-tz="Africa/Lagos">—</span></p>
         <h3>Lagos</h3>
         <address>Suite 5B, Entrance 2<br>Tafawa Balewa Square<br>Lagos</address>
+        <a class="dir" href="https://www.google.com/maps/search/?api=1&query=Tafawa+Balewa+Square%2C+Lagos%2C+Nigeria" target="_blank" rel="noopener">Open in Google Maps →</a>
       </div>
       <div class="office">
         <p class="tz"><span>Nigeria</span><span class="clock" data-tz="Africa/Lagos">—</span></p>
         <h3>Lagos · FAAN</h3>
         <address>FAAN Complex<br>Lagos</address>
+        <a class="dir" href="https://www.google.com/maps/search/?api=1&query=FAAN+Complex%2C+Lagos%2C+Nigeria" target="_blank" rel="noopener">Open in Google Maps →</a>
       </div>
     </div>
   </div>
@@ -593,6 +714,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       <p class="eyebrow">Contact</p>
       <h2>Get a quote</h2>
       <p>Tell us what you're moving and where it's going. The more detail you give, the more accurate the first quote will be.</p>
+      <p style="margin-top:22px"><a class="btn wa" href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>Chat on WhatsApp</a></p>
       <div class="direct">
         <div><b>Email</b><button class="copy" data-copy="info@sgresourcesinc.com">info@sgresourcesinc.com</button></div>
         <div><b>Houston office</b><button class="copy" data-copy="281.969.5788">281.969.5788</button></div>
@@ -601,7 +723,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
     </aside>
 
     <form class="card" id="quoteForm" novalidate>
-      <p class="proto">This is a design preview. The form doesn't send anything yet.</p>
+      <p class="proto">This is a design preview. “Send request” doesn't send anything yet. “Send on WhatsApp” opens WhatsApp with your details filled in, and you choose whether to send.</p>
       <div class="f full">
         <span class="lbl" id="svcLbl">What do you need?</span>
         <div class="seg" id="svcSeg" role="radiogroup" aria-labelledby="svcLbl">
@@ -624,7 +746,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       <div class="f full"><label for="fmsg">What are you shipping or buying?</label><textarea id="fmsg" name="msg" placeholder="e.g. 2007 Toyota Sienna and household goods, ready in November, door to port"></textarea></div>
       <div class="form-foot">
         <small>For an urgent problem with cargo already in transit, call the emergency line.</small>
-        <button class="btn primary" type="submit">Send request</button>
+        <span style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn wa" id="waSend" href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>Send on WhatsApp</a><button class="btn primary" type="submit">Send request</button></span>
       </div>
       <p class="sent" id="sent" role="status" hidden></p>
     </form>
@@ -646,7 +768,8 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         <li><a href="#services">Procurement &amp; sourcing</a></li>
         <li><a href="#services">Warehousing</a></li>
         <li><a href="#services">Construction</a></li>
-        <li><a href="#services">Marketing, notary &amp; more</a></li>
+        <li><a href="#guide">Car export checklist</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </div>
     <div>
@@ -656,6 +779,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         <li>Office 281.969.5788</li>
         <li>Emergency 713.281.8657</li>
         <li>info@sgresourcesinc.com</li>
+        <li><a href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener">WhatsApp 281.969.5788</a></li>
         <li><a href="https://www.instagram.com/sgresources.inc/">Instagram @sgresources.inc</a></li>
       </ul>
     </div>
@@ -667,12 +791,14 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
   </div>
 </footer>
 
+<a class="wa-float" href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener" aria-label="Chat with SG Resources on WhatsApp"><svg class="wa-ico" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>WhatsApp</a>
+<nav class="mbar" aria-label="Quick contact"><a class="call" href="tel:+12819695788">Call office</a><a class="wa" href="https://wa.me/12819695788?text=Hello%20SG%20Resources%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>WhatsApp</a></nav>
 <button class="notes-btn" id="notesBtn" aria-expanded="false" aria-controls="notes">Redesign notes</button>
 <aside class="notes" id="notes" hidden aria-label="Redesign notes">
   <button class="close" id="notesClose">Close</button>
   <p class="eyebrow">For the SG Resources team</p>
   <h2 style="margin-top:10px">Redesign notes</h2>
-  <p class="intro">Version 3: this version uses the real logo artwork and adds logistics photos. The colors match the logo, and the copy sticks to what the company has stated publicly.</p>
+  <p class="intro">Latest version: this adds a WhatsApp button, a car export checklist, an FAQ and an Instagram section. It uses the real logo artwork and logistics photos. The colors match the logo, and the copy sticks to what the company has stated publicly.</p>
 
   <h3>About the photos</h3>
   <ul>
@@ -720,14 +846,23 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
     <li><b>Typos</b><span>“Forwading” and “Fowarding” (also in a page URL), “Suit 5B”, “MARKETING &amp;TITLE”.</span></li>
   </ul>
 
-  <h3>Suggested additions</h3>
+  <h3>Suggestions added to this preview</h3>
+  <ul>
+    <li><b>WhatsApp everywhere</b><span>A floating button, a call/WhatsApp bar on phones, a link in the top bar, and a “Send on WhatsApp” option that fills in the quote details. <strong>It currently uses the office line, 281.969.5788. Please confirm that number is on WhatsApp</strong>, or tell us which one to use.</span></li>
+    <li><b>Car export checklist</b><span>U.S. requirements (title, lender permission, the 72-hour Customs rule, the AES filing), each linked to its official source. The destination side stays general on purpose; add Nigeria-specific details once you've confirmed the current rules.</span></li>
+    <li><b>FAQ</b><span>Eight questions, answered using only what the company already states. I left out payment methods and insurance until you confirm what you offer.</span></li>
+    <li><b>Instagram section</b><span>It links to your Shipping, Automobile and Review highlights.</span></li>
+    <li><b>Marketing and DOT testing moved out of the main tabs</b><span>They're now one “Also available” line, so shipping comes first.</span></li>
+    <li><b>Google Maps links</b><span>Added for each office.</span></li>
+  </ul>
+
+  <h3>Still needs your input</h3>
   <ol>
-    <li><b>WhatsApp button</b><span>This is how most customers in West Africa will want to reach you.</span></li>
-    <li><b>Real proof from Instagram</b><span>Your “Review” and “Automobile” highlights already exist. Put real photos and customer reviews (with permission) on the site.</span></li>
-    <li><b>A detailed guide to shipping a car to Nigeria</b><span>Documents, vehicle age limits, duties and timelines. It's your strongest chance to be found on Google.</span></li>
-    <li><b>Sailing dates and cut-off dates</b><span>Even a monthly list would answer the most common question.</span></li>
-    <li><b>FAQ</b><span>Items you can't ship, insurance, payment methods, and typical time to clear customs.</span></li>
-    <li><b>Separate page or brand for marketing and DOT testing</b><span>They dilute the shipping message.</span></li>
+    <li><b>Sailing dates and cut-off dates</b><span>I didn't add a schedule because we don't have real dates. Even a monthly list would answer the most common question.</span></li>
+    <li><b>Customer reviews and your own photos</b><span>Copy the best ones from Instagram onto the site, with the customers' permission.</span></li>
+    <li><b>Licenses</b><span>Your dealer license, and FMC/OTI number if you have one.</span></li>
+    <li><b>Office hours</b><span>For each office.</span></li>
+    <li><b>Payment methods and cargo insurance</b><span>For the FAQ.</span></li>
   </ol>
 </aside>
 
@@ -769,6 +904,18 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
   tick();setInterval(tick,30000);
 
   const f=document.getElementById('quoteForm'),sent=document.getElementById('sent');
+  const waSend=document.getElementById('waSend');
+  function waText(){
+    const v=n=>(f.elements[n]&&f.elements[n].value||'').trim();
+    const svc=(f.querySelector('input[name=service]:checked')||{}).value||'';
+    const lines=["Hello SG Resources, I'd like a quote.","Service: "+svc];
+    if(v('dest'))lines.push("Destination: "+v('dest'));
+    if(v('msg'))lines.push("Details: "+v('msg'));
+    if(v('fullname'))lines.push("Name: "+v('fullname'));
+    if(v('email'))lines.push("Email: "+v('email'));
+    waSend.href='https://wa.me/12819695788?text='+encodeURIComponent(lines.join('\n'));
+  }
+  f.addEventListener('input',waText);f.addEventListener('change',waText);waText();
   f.addEventListener('submit',e=>{
     e.preventDefault();
     const nm=f.elements.fullname,em=f.elements.email;
