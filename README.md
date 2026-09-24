@@ -5,6 +5,22 @@ This is a design preview, not the live site. The forms don't send anything, and 
 
 **Live preview:** https://tundework.github.io/sg-resources-preview/
 
+## Pages
+
+- `index.html`: homepage (services, FAQ, offices, quote form)
+- `freight-forwarding.html`, `vehicles.html` (includes the U.S. car export checklist), `procurement.html`, `warehousing.html`, `construction.html`, `other-services.html`
+- `shipping-policy.html`: shipping & liability policy
+
+## Editing
+
+Edit the files in `src/`, not the generated `.html` files in the root:
+
+- `src/_top.html` and `src/_bottom.html`: header, footer and redesign notes, shared by every page
+- `src/pages/*.html`: the content of each page
+- `assets/site.css` and `assets/site.js`: styles and scripts
+
+Then run `python build.py` to regenerate the pages, and commit.
+
 ## Image credits
 
 The SG Resources logo belongs to SG Resources Inc. All photos come from Wikimedia Commons and have been resized and cropped:
