@@ -4,7 +4,7 @@ Each page in src/pages/ starts with a meta comment:
   <!--meta title=... | desc=... | cur=freight | service=freight -->
 and is wrapped with src/_top.html and src/_bottom.html. Run: python build.py
 """
-import pathlib, re
+import hashlib, pathlib, re
 
 ROOT = pathlib.Path(__file__).parent
 SRC = ROOT / "src"
@@ -26,12 +26,12 @@ HEAD = """<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>body{{margin:0}}img{{max-width:100%}}[hidden]{{display:none!important}}</style>
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v={css_v}">
 </head>
 <body>
 """
 FOOT = """
-<script src="assets/site.js"></script>
+<script src="assets/site.js?v={js_v}"></script>
 </body>
 </html>
 """
@@ -61,6 +61,12 @@ def render(text, cur, service):
         return ' aria-current="page"' if m.group(1) == cur else ""
     return re.sub(r"\{\{CUR:(\w+)\}\}", cur_sub, text)
 
+def version(path):
+    # content hash so browsers fetch fresh CSS/JS after every change
+    return hashlib.sha1((ROOT / path).read_bytes()).hexdigest()[:8]
+
+CSS_V, JS_V = version("assets/site.css"), version("assets/site.js")
+
 top = (SRC / "_top.html").read_text(encoding="utf-8")
 bottom = (SRC / "_bottom.html").read_text(encoding="utf-8")
 
@@ -74,10 +80,10 @@ for page in sorted((SRC / "pages").glob("*.html")):
     )
     body = raw[m.end():]
     cur, service = meta.get("cur", ""), meta.get("service", "")
-    html = (HEAD.format(title=meta["title"], desc=meta.get("desc", ""))
+    html = (HEAD.format(title=meta["title"], desc=meta.get("desc", ""), css_v=CSS_V)
             + render(top, cur, service)
             + '\n<main id="top">\n' + render(body, cur, service) + "</main>\n\n"
-            + render(bottom, cur, service) + FOOT)
+            + render(bottom, cur, service) + FOOT.format(js_v=JS_V))
     assert "{{" not in html, f"{page.name}: unreplaced token"
     (ROOT / page.name).write_text(html, encoding="utf-8")
     print("built", page.name)
