@@ -141,7 +141,8 @@ nav.links a:hover{border-color:var(--orange)}
 /* hero */
 .hero{padding-block:clamp(48px,8vw,104px) clamp(64px,8vw,112px);position:relative;overflow:hidden;background:#2E0229 url("img/hero-bayport.jpg") center/cover no-repeat;color:#fff}
 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(46,2,41,.94) 0%,rgba(46,2,41,.82) 42%,rgba(46,2,41,.35) 100%);pointer-events:none}
-@media (max-width:960px){.hero::before{background:linear-gradient(180deg,rgba(46,2,41,.5) 0%,rgba(46,2,41,.82) 38%,rgba(46,2,41,.9) 100%)}}
+@media (max-width:960px){.hero::before{background:linear-gradient(180deg,rgba(46,2,41,.35) 0%,rgba(46,2,41,.72) 40%,rgba(46,2,41,.88) 100%)}}
+@media (max-width:960px){.hero h1,.hero .lede,.hero .motto-line{text-shadow:0 1px 12px rgba(46,2,41,.6)}}
 .hero .photo-cap{position:absolute;right:12px;bottom:10px;margin:0;font:500 11px/1.3 var(--mono);color:rgba(255,255,255,.75);text-shadow:0 1px 2px rgba(0,0,0,.6);max-width:calc(100% - 24px);text-align:right}
 .hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,5vw,64px);align-items:center;position:relative}
 @media (max-width:960px){.hero .wrap{grid-template-columns:1fr}}
@@ -337,7 +338,7 @@ nav.links a[aria-current="page"]{border-color:var(--orange)}
 /* page hero (service pages) */
 .page-hero{position:relative;overflow:hidden;color:#fff;background-color:#2E0229;background-position:center;background-size:cover;background-repeat:no-repeat;padding-block:clamp(40px,6vw,80px) clamp(44px,6vw,84px)}
 .page-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(46,2,41,.95) 0%,rgba(46,2,41,.85) 50%,rgba(46,2,41,.45) 100%)}
-@media (max-width:760px){.page-hero::before{background:linear-gradient(180deg,rgba(46,2,41,.6),rgba(46,2,41,.9) 45%)}}
+@media (max-width:760px){.page-hero::before{background:linear-gradient(180deg,rgba(46,2,41,.35) 0%,rgba(46,2,41,.72) 45%,rgba(46,2,41,.86) 100%)}.page-hero h1,.page-hero .lede{text-shadow:0 1px 12px rgba(46,2,41,.6)}}
 .page-hero .wrap{position:relative}
 .crumbs{font:500 12px/1.4 var(--mono);letter-spacing:.06em;color:rgba(255,255,255,.75)}
 .crumbs a{color:#fff;text-decoration:none}
