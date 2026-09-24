@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>SG Resources Redesign</title>
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Brand colors sampled from the SG Resources logo:
+   orange #F36C05 (globe, "RESOURCES"), plum #4B0542 (swoosh, "SG"), grey #6D6D6D ("INC.", tagline) */
+:root{
+  --orange:#F36C05; --orange-text:#B84E00; --on-orange:#2A0325;
+  --plum:#4B0542; --plum-deep:#2E0229; --plum-ink:#F7EEF5; --plum-dim:#C7A9C2;
+  --grey:#6D6D6D;
+  --ground:#FAF8F9; --surface:#FFFFFF; --ink:#24101F; --muted:#6D6D6D; --line:#E3DCE1; --tint:#F4EDF2;
+  --ok:#2E7D4F; --err:#B3261E;
+  --display:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --gutter:clamp(16px,4vw,48px); --max:1200px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --orange-text:#FF9A4D; --plum:#3A0433; --plum-deep:#1C0118;
+  --ground:#16060F; --surface:#221019; --ink:#F4ECF1; --muted:#B3A6AF; --line:#3A2433; --tint:#2B1524;
+  --ok:#5DBE87; --err:#FF8A80;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --orange-text:#FF9A4D; --plum:#3A0433; --plum-deep:#1C0118;
+  --ground:#16060F; --surface:#221019; --ink:#F4ECF1; --muted:#B3A6AF; --line:#3A2433; --tint:#2B1524;
+  --ok:#5DBE87; --err:#FF8A80;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:.98;letter-spacing:.005em}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-text);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 16px/1 var(--body);padding:14px 20px;border-radius:3px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);text-decoration:none;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.btn:hover{background:var(--ink);color:var(--ground)}
+.btn.primary{background:var(--orange);border-color:var(--orange);color:var(--on-orange)}
+.btn.primary:hover{background:var(--plum);border-color:var(--plum);color:#fff}
+
+/* logo: the original SG Resources artwork, split into globe + wordmark for a horizontal header */
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;min-width:0;border-radius:6px}
+.logo .mark{height:46px;width:auto;flex:none}
+.logo .word{height:34px;width:auto;min-width:0;max-width:100%;object-fit:contain;object-position:left center}
+.logo-chip{background:transparent;padding:0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-chip{background:#fff;padding:6px 10px}}
+:root[data-theme="dark"] .logo-chip{background:#fff;padding:6px 10px}
+@media (max-width:480px){.logo .word{height:24px}.logo .mark{height:36px}}
+
+/* preview banner */
+.preview-bar{background:var(--orange);color:var(--on-orange);font-size:14px;line-height:1.4}
+.preview-bar .wrap{padding-block:9px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
+.preview-bar b{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;background:var(--on-orange);color:var(--orange);padding:5px 8px;border-radius:2px}
+.preview-bar button{all:unset;cursor:pointer;font-weight:700;text-decoration:underline}
+.preview-bar button:focus-visible{outline:2px solid var(--on-orange);outline-offset:2px}
+
+/* utility + nav */
+.util{background:var(--plum);color:var(--plum-dim);font:500 13px/1 var(--mono)}
+.util .wrap{display:flex;flex-wrap:wrap;gap:6px 22px;justify-content:space-between;padding-block:9px}
+.util b{color:var(--plum-ink);font-weight:500}
+.util .em b{color:var(--orange)}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--ground) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;gap:24px;padding-block:12px;position:relative}
+nav.links{display:flex;gap:22px;font-weight:600;font-size:16px}
+nav.links a{text-decoration:none;padding-block:6px;border-bottom:2px solid transparent}
+nav.links a:hover{border-color:var(--orange)}
+.menu-btn{display:none;background:none;border:1.5px solid var(--ink);color:var(--ink);font:600 13px/1 var(--mono);padding:10px 12px;cursor:pointer}
+@media (max-width:900px){
+  nav.links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;background:var(--ground);border-bottom:1px solid var(--line);padding:8px var(--gutter) 16px}
+  nav.links.open{display:flex}
+  nav.links a{padding-block:12px;border-bottom:1px solid var(--line)}
+  .menu-btn{display:block}
+  header.nav .cta-top{display:none}
+}
+
+/* hero */
+.hero{padding-block:clamp(48px,8vw,104px) clamp(64px,8vw,112px);position:relative;overflow:hidden;background:#2E0229 url("img/hero-bayport.jpg") center/cover no-repeat;color:#fff}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(46,2,41,.94) 0%,rgba(46,2,41,.82) 42%,rgba(46,2,41,.35) 100%);pointer-events:none}
+@media (max-width:960px){.hero::before{background:rgba(46,2,41,.84)}}
+.hero .photo-cap{position:absolute;right:12px;bottom:10px;margin:0;font:500 11px/1.3 var(--mono);color:rgba(255,255,255,.75);text-shadow:0 1px 2px rgba(0,0,0,.6);max-width:calc(100% - 24px);text-align:right}
+.hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,5vw,64px);align-items:center;position:relative}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(48px,7.4vw,96px);font-weight:800;text-transform:uppercase;line-height:.92;color:#fff;margin-top:16px}
+.hero .eyebrow{color:var(--orange)}
+.hero h1 .o{color:var(--orange)}
+.hero .lede{font-size:clamp(18px,1.6vw,20px);color:rgba(255,255,255,.86);max-width:52ch;margin-top:24px}
+.hero .lede strong{color:#fff;font-weight:600}
+.hero .btn:not(.primary){border-color:#fff;color:#fff}
+.hero .btn:not(.primary):hover{background:#fff;color:var(--plum-deep)}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+
+/* routes card */
+.routes{background:rgba(46,2,41,.9);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);color:var(--plum-ink);padding:24px clamp(18px,2.6vw,30px) 20px;border-radius:6px;box-shadow:0 30px 60px -30px rgba(46,2,41,.6)}
+.routes-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid rgba(255,255,255,.14);padding-bottom:14px}
+.routes-head h2{font-size:28px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.routes-head span{font:500 12px/1 var(--mono);color:var(--orange);letter-spacing:.08em;text-transform:uppercase}
+.routes ul{list-style:none;margin:0;padding:0}
+.routes li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:13px 0;border-bottom:1px dashed rgba(255,255,255,.14)}
+.routes li b{font:700 24px/1 var(--display);letter-spacing:.03em;text-transform:uppercase}
+.routes li b::before{content:"HOU → ";color:var(--plum-dim);font-weight:600}
+.routes li span{font-size:14.5px;color:var(--plum-dim)}
+.routes .other b::before{content:""}
+.routes .modes{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.routes .modes span{font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.22);padding:8px 10px;border-radius:2px}
+.routes .fine{font-size:13.5px;color:var(--plum-dim);margin-top:16px}
+.routes .fine a{color:var(--orange);font-weight:600;text-decoration:none}
+
+/* sections */
+section.block{padding-block:clamp(64px,9vw,112px);border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:1fr 1.1fr;gap:20px 48px;align-items:end;margin-bottom:clamp(30px,4vw,48px)}
+@media (max-width:860px){.sec-head{grid-template-columns:1fr}}
+.sec-head h2{font-size:clamp(40px,5.4vw,68px);font-weight:800;text-transform:uppercase;margin-top:10px}
+.sec-head p{color:var(--muted);max-width:58ch}
+
+/* ways we ship (photo strip) */
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.ways{grid-template-columns:1fr}}
+.way{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.way img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;max-width:100%}
+.way figcaption{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.way h3{font-size:28px;font-weight:700;text-transform:uppercase}
+.way p{color:var(--muted);font-size:16px}
+.way .ill{margin-top:auto;padding-top:6px;font:500 11px/1.3 var(--mono);color:var(--muted);letter-spacing:.04em}
+.panel .pic{grid-column:1/-1;margin:0}
+.panel .pic img{display:block;width:100%;max-width:100%;aspect-ratio:16/6;object-fit:cover;border-radius:4px}
+.panel .pic figcaption{font:500 11px/1.3 var(--mono);color:var(--muted);margin-top:6px}
+.lagos{margin:0 0 16px;position:relative;border-radius:6px;overflow:hidden}
+.lagos img{display:block;width:100%;max-width:100%;aspect-ratio:21/7;object-fit:cover;object-position:center 60%}
+@media (max-width:640px){.lagos img{aspect-ratio:4/3}}
+.lagos figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 22px 16px;background:linear-gradient(transparent,rgba(46,2,41,.9));color:#fff;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:6px 16px}
+.lagos b{font:700 clamp(24px,3vw,34px)/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.lagos small{font:500 11px/1.3 var(--mono);opacity:.85}
+.credits{grid-column:1/-1;font-size:12px;line-height:1.6;color:var(--plum-dim);margin:0}
+.credits a{text-decoration:underline}
+
+/* services desk */
+.desk{display:grid;grid-template-columns:310px 1fr;border:1px solid var(--line);background:var(--surface);border-radius:6px;overflow:hidden}
+@media (max-width:860px){.desk{grid-template-columns:1fr}}
+.tabs{display:flex;flex-direction:column;border-right:1px solid var(--line);background:var(--tint)}
+@media (max-width:860px){.tabs{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}}
+.tab{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:12px;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);font-weight:600;font-size:16px;line-height:1.25;border-left:4px solid transparent}
+.tab:last-child{border-bottom:0}
+@media (max-width:860px){.tab{border-bottom:0;border-left:0;border-right:1px solid var(--line);white-space:nowrap;padding:14px 16px;border-top:4px solid transparent}}
+.tab:hover{background:color-mix(in srgb,var(--orange) 10%,transparent)}
+.tab[aria-selected="true"]{background:var(--surface);border-left-color:var(--orange);color:var(--ink)}
+@media (max-width:860px){.tab[aria-selected="true"]{border-top-color:var(--orange)}}
+.tab .tag{margin-left:auto;font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--orange-text)}
+.tab:focus-visible{outline-offset:-3px}
+.panel{padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:1.1fr 1fr;gap:28px 40px;align-content:start}
+@media (max-width:1040px){.panel{grid-template-columns:1fr}}
+.panel h3{font-size:clamp(34px,4vw,48px);font-weight:800;text-transform:uppercase;grid-column:1/-1;color:var(--plum)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .panel h3{color:var(--ink)}}
+:root[data-theme="dark"] .panel h3{color:var(--ink)}
+.panel .pitch{font-size:19px;line-height:1.5}
+.panel .sub{color:var(--muted);margin-top:14px}
+.panel .ctaline{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px}
+.panel ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.panel li{padding:10px 0 10px 26px;border-bottom:1px solid var(--line);position:relative;font-size:16px}
+.panel li::before{content:"";position:absolute;left:3px;top:18px;width:9px;height:9px;border-radius:50%;border:2px solid var(--orange)}
+.panel .listlabel{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+
+/* vehicle export steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;border-top:2px solid var(--plum)}
+@media (max-width:1000px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+.steps li{counter-increment:s;padding:22px 22px 22px 0}
+@media (min-width:1001px){.steps li+li{padding-left:22px;border-left:1px solid var(--line)}}
+@media (max-width:1000px){.steps li{border-bottom:1px solid var(--line);padding-left:0}}
+.steps li::before{content:"Step " counter(s);font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--orange-text)}
+.steps h3{font-size:26px;font-weight:700;text-transform:uppercase;margin-top:10px}
+.steps p{color:var(--muted);font-size:15.5px;margin-top:8px}
+.steps .who{display:inline-block;margin-top:12px;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-radius:2px;background:var(--tint);color:var(--ink)}
+.steps .who.you{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.honest{margin-top:22px;font-size:15px;color:var(--muted);max-width:80ch}
+
+/* why */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.why{grid-template-columns:1fr}}
+.why article{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:26px}
+.why h3{font-size:28px;font-weight:700;text-transform:uppercase}
+.why p{color:var(--muted);margin-top:10px}
+.call-band{margin-top:clamp(40px,5vw,64px);background:var(--orange);color:var(--on-orange);border-radius:6px;padding:clamp(24px,4vw,44px);display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between}
+.call-band h3{font-size:clamp(30px,3.6vw,44px);font-weight:800;text-transform:uppercase;max-width:22ch}
+.call-band p{margin-top:8px;max-width:52ch;font-size:17px}
+.call-band .num{font:800 clamp(34px,4vw,50px)/1 var(--display);letter-spacing:.02em}
+.call-band .num small{display:block;font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.call-band .copy{font:inherit}
+
+/* offices */
+.offices{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:16px}
+@media (max-width:1040px){.offices{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.offices{grid-template-columns:1fr}}
+.office{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.office.us{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+.office .tz{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.office.us .tz{color:var(--orange)}
+.office h3{font-size:32px;font-weight:700;text-transform:uppercase}
+.office address{font-style:normal;color:var(--muted);font-size:16px}
+.office.us address{color:var(--plum-dim)}
+.lines{margin-top:auto;padding-top:14px;display:grid;gap:8px;font-family:var(--mono);font-size:13.5px}
+.lines div{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,.16);padding-top:8px}
+.lines span{opacity:.75;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.copy{all:unset;cursor:pointer;font:600 14px/1 var(--mono);border-bottom:1px dashed currentColor}
+.copy:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.clock{font-variant-numeric:tabular-nums}
+
+/* quote form */
+.quote{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(32px,5vw,72px)}
+@media (max-width:900px){.quote{grid-template-columns:1fr}}
+.quote aside h2{font-size:clamp(44px,6vw,72px);font-weight:800;text-transform:uppercase;margin-top:10px}
+.quote aside p{color:var(--muted);margin-top:16px;max-width:44ch}
+.direct{margin-top:26px;display:grid;gap:14px}
+.direct div{border-left:3px solid var(--orange);padding-left:14px}
+.direct b{display:block;font:600 11px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.direct .copy{font-size:18px;margin-top:4px;display:inline-block}
+form.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:clamp(20px,3vw,36px);display:grid;grid-template-columns:1fr 1fr;gap:18px 16px}
+@media (max-width:560px){form.card{grid-template-columns:1fr}}
+.f{display:flex;flex-direction:column;gap:7px}
+.f.full{grid-column:1/-1}
+.f>label,.f>.lbl{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.f input,.f select,.f textarea{font:16px/1.4 var(--body);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:3px;padding:12px 13px;width:100%}
+.f textarea{min-height:110px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--plum);box-shadow:0 0 0 3px color-mix(in srgb,var(--orange) 45%,transparent)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{font:500 15px/1 var(--body);color:var(--ink);border:1px solid var(--line);padding:10px 14px;cursor:pointer;background:var(--ground);border-radius:3px}
+.seg input:checked+label{background:var(--plum);color:#fff;border-color:var(--plum)}
+.seg input:focus-visible+label{outline:3px solid var(--orange);outline-offset:2px}
+.proto{grid-column:1/-1;font-size:14px;background:var(--tint);border-radius:3px;padding:10px 12px;color:var(--muted)}
+.form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.form-foot small{color:var(--muted);font-size:14px;max-width:44ch}
+.sent{grid-column:1/-1;border:1px solid var(--ok);color:var(--ok);padding:14px 16px;font-size:15px;border-radius:3px}
+.sent.err{border-color:var(--err);color:var(--err)}
+
+/* footer */
+footer{background:var(--plum-deep);color:var(--plum-dim);padding-block:48px 32px;font-size:15px}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+@media (max-width:760px){footer .wrap{grid-template-columns:1fr}}
+footer h4{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--plum-ink);margin:0 0 14px}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--orange)}
+footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);padding-top:20px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-size:13px;font-family:var(--mono)}
+
+/* notes drawer */
+.notes-btn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--plum);color:#fff;border:2px solid var(--orange);font:600 13px/1 var(--mono);letter-spacing:.06em;padding:13px 16px;border-radius:40px;cursor:pointer;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+.notes{position:fixed;inset:0 0 0 auto;width:min(500px,100%);z-index:50;background:var(--surface);border-left:1px solid var(--line);overflow-y:auto;padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(40px + env(safe-area-inset-bottom,0px));box-shadow:-30px 0 60px -30px rgba(0,0,0,.4)}
+.notes h2{font-size:40px;font-weight:800;text-transform:uppercase}
+.notes h3{font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--orange-text);margin:28px 0 12px}
+.notes ol,.notes ul{margin:0;padding-left:20px;display:grid;gap:10px;font-size:15px}
+.notes li b{display:block}
+.notes li span{color:var(--muted)}
+.notes .close{float:right;background:none;border:1.5px solid var(--ink);color:var(--ink);font:600 13px/1 var(--mono);padding:9px 12px;cursor:pointer}
+.notes .intro{color:var(--muted);margin-top:12px;font-size:15px}
+.notes .src{font-size:13px;color:var(--muted)}
+.notes .src a{color:var(--orange-text)}
+.swatches{display:flex;gap:8px;margin-top:4px}
+.swatches i{flex:1;height:34px;border-radius:3px;font:500 10.5px/34px var(--mono);font-style:normal;text-align:center;color:#fff}
+</style>
+</head>
+<body>
+
+<div class="preview-bar" role="note"><div class="wrap"><b>Design preview</b> This is a proposed redesign of sgresourcesinc.com for the SG Resources team to review. It isn't the live site, and the forms don't send anything. <button type="button" id="openNotes">Read the redesign notes</button></div></div>
+<div class="util">
+  <div class="wrap">
+    <span>Stafford, TX (Houston) · Port Harcourt · Lagos</span>
+    <span>Office <b>281.969.5788</b> &nbsp;·&nbsp; <span class="em">Emergency <b>713.281.8657</b></span></span>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo logo-chip" href="#top" aria-label="SG Resources Inc, home">
+      <img class="mark" src="img/logo-mark.png" alt="" width="179" height="160">
+      <img class="word" src="img/logo-word.png" alt="SG Resources Inc. Shipping, logistics and procurement." width="794" height="120">
+    </a>
+    <nav class="links" id="navlinks" aria-label="Main">
+      <a href="#ways">How we ship</a>
+      <a href="#services">Services</a>
+      <a href="#vehicles">Shipping a vehicle</a>
+      <a href="#offices">Offices</a>
+      <a href="#quote">Contact</a>
+    </nav>
+    <a class="btn primary cta-top" href="#quote">Get a quote</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navlinks">MENU</button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Stafford, Texas · Houston area</p>
+      <h1>Shipping, logistics <span class="o">&amp; procurement</span> from Houston</h1>
+      <p class="lede">We export <strong>vehicles, equipment and commercial cargo</strong> from Houston to Nigeria, Ghana, Senegal, Cameroon and other destinations. We can also buy the goods, handle the title and store them before they ship.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#quote">Request a quote</a>
+        <a class="btn" href="#vehicles">How vehicle export works</a>
+      </div>
+    </div>
+
+    <div class="routes" aria-label="Where we ship">
+      <div class="routes-head">
+        <h2>Where we ship</h2>
+        <span>Air &amp; sea · weekly</span>
+      </div>
+      <ul>
+        <li><b>Lagos</b><span>Nigeria</span></li>
+        <li><b>Onne</b><span>Nigeria</span></li>
+        <li><b>Accra</b><span>Ghana</span></li>
+        <li><b>Dakar</b><span>Senegal</span></li>
+        <li><b>Douala</b><span>Cameroon</span></li>
+        <li class="other"><b>Elsewhere</b><span>Ask us</span></li>
+      </ul>
+      <div class="modes"><span>Containers</span><span>Consolidated</span><span>RoRo</span><span>Flat rack</span><span>Air cargo</span></div>
+      <p class="fine">Transit times and rates depend on the route and the carrier's schedule. <a href="#quote">Ask for current dates →</a></p>
+    </div>
+  </div>
+  <p class="photo-cap">Bayport Container Terminal, Port of Houston · photo: formulanone, CC BY-SA 2.0</p>
+</section>
+
+<section class="block" id="ways" style="border-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">How we ship</p>
+        <h2>Sea, RoRo &amp; air</h2>
+      </div>
+      <p>The best way to ship depends on what you're sending, how quickly it needs to arrive and your budget. We'll recommend one when we quote.</p>
+    </div>
+    <div class="ways">
+      <figure class="way">
+        <img src="img/car-carrier.jpg" alt="A large white car-carrier ship at sea" width="1200" height="800" loading="lazy">
+        <figcaption><h3>RoRo vehicles</h3><p>Cars, trucks and machinery that can be driven onto a roll-on/roll-off ship. For a single vehicle, this is often the cheapest option.</p><span class="ill">Illustrative photo · IikaJzuchiN, CC BY 4.0</span></figcaption>
+      </figure>
+      <figure class="way">
+        <img src="img/heavy-cargo.jpg" alt="Heavy yellow industrial equipment on a flatcar at the Port of Houston docks, waiting for export" width="1200" height="777" loading="lazy">
+        <figcaption><h3>Containers &amp; flat rack</h3><p>Full containers, shared (consolidated) containers, and flat racks for heavy or oversized equipment.</p><span class="ill">Port of Houston docks · Roy Luck, CC BY 2.0</span></figcaption>
+      </figure>
+      <figure class="way">
+        <img src="img/air-freighter.jpg" alt="A Boeing 747 cargo plane on a runway" width="1200" height="576" loading="lazy">
+        <figcaption><h3>Air cargo</h3><p>For parts, documents and anything urgent. It costs more than sea freight but arrives in days, not weeks.</p><span class="ill">Illustrative photo · Frank Kovalchek, CC BY 2.0</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Services</p>
+        <h2>What we do</h2>
+      </div>
+      <p>Most of our work is exporting vehicles and freight out of Houston. Around that, we offer sourcing, title work, warehousing and a few other business services. Use one, or combine them.</p>
+    </div>
+
+    <div class="desk">
+      <div class="tabs" role="tablist" aria-label="Services">
+        <button class="tab" role="tab" id="t-frt" aria-controls="p-frt" aria-selected="true">Freight forwarding <span class="tag">Core</span></button>
+        <button class="tab" role="tab" id="t-veh" aria-controls="p-veh" aria-selected="false" tabindex="-1">Vehicles &amp; titles <span class="tag">Core</span></button>
+        <button class="tab" role="tab" id="t-prc" aria-controls="p-prc" aria-selected="false" tabindex="-1">Procurement &amp; sourcing</button>
+        <button class="tab" role="tab" id="t-whs" aria-controls="p-whs" aria-selected="false" tabindex="-1">Warehousing</button>
+        <button class="tab" role="tab" id="t-con" aria-controls="p-con" aria-selected="false" tabindex="-1">Construction</button>
+        <button class="tab" role="tab" id="t-mkt" aria-controls="p-mkt" aria-selected="false" tabindex="-1">Marketing, notary &amp; more</button>
+      </div>
+
+      <div class="panel" role="tabpanel" id="p-frt" aria-labelledby="t-frt">
+        <h3>Freight forwarding</h3>
+        <div>
+          <p class="pitch">Heavy equipment, commercial cargo or personal effects, shipped by air or sea from Houston.</p>
+          <p class="sub">We work with our vendor contacts, track your cargo through the export process, and help with clearance and TELEX release at the other end. Our rates are competitive and our billing is transparent.</p>
+          <div class="ctaline"><a class="btn primary" href="#quote" data-service="Freight forwarding">Quote a shipment</a></div>
+        </div>
+        <div>
+          <p class="listlabel">Included</p>
+          <ul>
+            <li>Direct lanes from Houston, TX</li>
+            <li>Door-to-port and door-to-door</li>
+            <li>Full containers, consolidation and bulk cargo</li>
+            <li>RoRo, flat rack and expedited air</li>
+            <li>Help with customs clearance and TELEX release</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="p-veh" aria-labelledby="t-veh" hidden>
+        <h3>Vehicles &amp; titles</h3>
+        <div>
+          <p class="pitch">We're a licensed dealership that exports vehicles, and handles the title work that has to be done before a car can leave the U.S.</p>
+          <p class="sub">We work with dealers in Nigeria and with private buyers in Houston. We can source a vehicle, clear its title, check the VIN and ship it, or do only the part you need.</p>
+          <div class="ctaline"><a class="btn primary" href="#quote" data-service="Vehicles & titles">Ask about a vehicle</a></div>
+        </div>
+        <div>
+          <p class="listlabel">Services</p>
+          <ul>
+            <li>Wholesale vehicle exports</li>
+            <li>Dealer-to-dealer sales, local and international</li>
+            <li>Title and lien management, lien releases</li>
+            <li>VIN verification</li>
+            <li>Titles, bonded titles and power of attorney filings</li>
+            <li>DMV registration</li>
+            <li>Vehicle sourcing for buyers in Africa and overseas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="p-prc" aria-labelledby="t-prc" hidden>
+        <h3>Procurement &amp; sourcing</h3>
+        <div>
+          <p class="pitch">Tell us what you need to buy. We'll find suppliers, negotiate the price and verify each transaction.</p>
+          <p class="sub">Once the goods are bought, we can store them in Houston and ship them with the rest of your cargo.</p>
+          <div class="ctaline"><a class="btn primary" href="#quote" data-service="Procurement & sourcing">Send a sourcing request</a></div>
+        </div>
+        <div>
+          <p class="listlabel">What we source</p>
+          <ul>
+            <li>Food service equipment and packaging</li>
+            <li>Auto parts and accessories</li>
+            <li>Furniture and household goods</li>
+            <li>Construction supplies</li>
+            <li>General merchandise</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="p-whs" aria-labelledby="t-whs" hidden>
+        <h3>Warehousing</h3>
+        <figure class="pic"><img src="img/warehouse.jpg" alt="Warehouse interior with tall pallet racks and boxed goods" width="1200" height="935" loading="lazy"><figcaption>Illustrative photo, not our facility · Axisadman, CC BY-SA 3.0</figcaption></figure>
+        <div>
+          <p class="pitch">Short-term storage in Houston while your cargo waits to ship.</p>
+          <p class="sub">Useful when you're buying from several U.S. sellers and need the goods collected in one place, checked and loaded into one container.</p>
+          <div class="ctaline"><a class="btn primary" href="#quote" data-service="Warehousing">Ask about space</a></div>
+        </div>
+        <div>
+          <p class="listlabel">Services</p>
+          <ul>
+            <li>Cross-docking and container loading</li>
+            <li>Short-term storage</li>
+            <li>Packing and labeling</li>
+            <li>Inventory tracking</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="p-con" aria-labelledby="t-con" hidden>
+        <h3>Construction</h3>
+        <div>
+          <p class="pitch">Residential and commercial projects, led by a construction manager with more than 30 years of experience.</p>
+          <p class="sub">Our procurement team sources the building materials, which helps keep projects on time and on budget. We take on projects in the U.S. and in Nigeria.</p>
+          <div class="ctaline"><a class="btn primary" href="#quote" data-service="Construction">Discuss a project</a></div>
+        </div>
+        <div>
+          <p class="listlabel">Scope</p>
+          <ul>
+            <li>Feasibility and site planning</li>
+            <li>Woodwork, electrical and painting</li>
+            <li>Material procurement and equipment rental</li>
+            <li>Subcontractor vetting and crew management</li>
+            <li>Progress reports and cost control</li>
+            <li>Final inspection and closeout</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="p-mkt" aria-labelledby="t-mkt" hidden>
+        <h3>Marketing, notary &amp; more</h3>
+        <div>
+          <p class="pitch">Services for small businesses and entrepreneurs, some of them our shipping clients.</p>
+          <p class="sub">Branding, websites and marketing for businesses such as shipping companies, restaurants and online stores. We also offer notary services and DOT drug testing.</p>
+          <div class="ctaline"><a class="btn primary" href="#quote" data-service="Marketing & other services">Get in touch</a></div>
+        </div>
+        <div>
+          <p class="listlabel">Services</p>
+          <ul>
+            <li>Social media marketing and content calendars</li>
+            <li>Logo design and brand kits</li>
+            <li>Websites on Shopify, Squarespace and Wix</li>
+            <li>Pitch decks, investor materials and grant writing</li>
+            <li>Email campaigns and CRM setup</li>
+            <li>Mobile and remote notary</li>
+            <li>DOT drug testing, onsite and mobile</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="vehicles">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Our most common job</p>
+        <h2>Shipping a vehicle from Houston</h2>
+      </div>
+      <p>This is how a typical vehicle export works. The labels show which steps we handle and which ones you or your agent handle at the destination.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Buy</h3><p>Buy the vehicle yourself, or have us find one for you through our dealership.</p><span class="who">We can do this</span></li>
+      <li><h3>Title</h3><p>A clear title is required for export. We handle lien releases, bonded titles, VIN checks and power of attorney.</p><span class="who">We do this</span></li>
+      <li><h3>Store &amp; load</h3><p>The vehicle is received and loaded into a container, alone or with your other goods. Or it ships RoRo.</p><span class="who">We do this</span></li>
+      <li><h3>Ship</h3><p>It ships by sea to your port. We'll give you the expected dates when you book.</p><span class="who">We do this</span></li>
+      <li><h3>Clear</h3><p>Import duties and clearance are paid at the destination port. We help with the documents and TELEX release.</p><span class="who you">You or your clearing agent, with our help</span></li>
+    </ol>
+    <p class="honest">Rules on vehicle age, duties and required documents vary by country and change often. Check the current rules with us before you buy.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Why SG Resources</p>
+        <h2>Why customers use us</h2>
+      </div>
+      <p>We're based in Stafford, Texas, with offices in Lagos and Port Harcourt.</p>
+    </div>
+    <div class="why">
+      <article><h3>One company for the whole job</h3><p>Buying, title, storage and shipping can all be arranged through us, so nothing gets lost between separate companies.</p></article>
+      <article><h3>Offices at both ends</h3><p>We have staff in Houston and in Nigeria, so you can reach someone on either side of the shipment.</p></article>
+      <article><h3>You can talk to someone</h3><p>An account manager guides you through the shipping process. There's also an emergency line for urgent problems with a shipment.</p></article>
+    </div>
+    <div class="call-band">
+      <div>
+        <h3>Not sure what you need?</h3>
+        <p>Call and tell us what you're shipping and where it's going. We'll tell you what's involved before you commit to anything.</p>
+      </div>
+      <div class="num"><small>Houston office</small><button class="copy" data-copy="281.969.5788">281.969.5788</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="offices">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Offices</p>
+        <h2>Where to find us</h2>
+      </div>
+      <p>Visit, call or email. Local times are shown on each card.</p>
+    </div>
+    <figure class="lagos">
+      <img src="img/apapa-lagos.jpg" alt="Cargo ships and cranes at Apapa port, Lagos" width="1200" height="900" loading="lazy">
+      <figcaption><b>Apapa port, Lagos</b><small>Photo: Quadrex24, CC BY-SA 4.0</small></figcaption>
+    </figure>
+    <div class="offices">
+      <div class="office us">
+        <p class="tz"><span>USA</span><span class="clock" data-tz="America/Chicago">—</span></p>
+        <h3>Stafford, TX</h3>
+        <address>2638 5th St., Ste. 15<br>Stafford, TX 77477</address>
+        <div class="lines">
+          <div><span>Office</span><button class="copy" data-copy="281.969.5788">281.969.5788</button></div>
+          <div><span>Emergency</span><button class="copy" data-copy="713.281.8657">713.281.8657</button></div>
+          <div><span>Fax</span><button class="copy" data-copy="281.969.5743">281.969.5743</button></div>
+          <div><span>Email</span><button class="copy" data-copy="info@sgresourcesinc.com">info@sgresourcesinc.com</button></div>
+        </div>
+      </div>
+      <div class="office">
+        <p class="tz"><span>Nigeria</span><span class="clock" data-tz="Africa/Lagos">—</span></p>
+        <h3>Port Harcourt</h3>
+        <address>Close 7, Block 7, off Circular Road<br>Elekahia Estate, Port Harcourt<br>Rivers State</address>
+      </div>
+      <div class="office">
+        <p class="tz"><span>Nigeria</span><span class="clock" data-tz="Africa/Lagos">—</span></p>
+        <h3>Lagos</h3>
+        <address>Suite 5B, Entrance 2<br>Tafawa Balewa Square<br>Lagos</address>
+      </div>
+      <div class="office">
+        <p class="tz"><span>Nigeria</span><span class="clock" data-tz="Africa/Lagos">—</span></p>
+        <h3>Lagos · FAAN</h3>
+        <address>FAAN Complex<br>Lagos</address>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="quote">
+  <div class="wrap quote">
+    <aside>
+      <p class="eyebrow">Contact</p>
+      <h2>Get a quote</h2>
+      <p>Tell us what you're moving and where it's going. The more detail you give, the more accurate the first quote will be.</p>
+      <div class="direct">
+        <div><b>Email</b><button class="copy" data-copy="info@sgresourcesinc.com">info@sgresourcesinc.com</button></div>
+        <div><b>Houston office</b><button class="copy" data-copy="281.969.5788">281.969.5788</button></div>
+        <div><b>Emergency line</b><button class="copy" data-copy="713.281.8657">713.281.8657</button></div>
+      </div>
+    </aside>
+
+    <form class="card" id="quoteForm" novalidate>
+      <p class="proto">This is a design preview. The form doesn't send anything yet.</p>
+      <div class="f full">
+        <span class="lbl" id="svcLbl">What do you need?</span>
+        <div class="seg" id="svcSeg" role="radiogroup" aria-labelledby="svcLbl">
+          <input type="radio" name="service" id="s1" value="Freight forwarding" checked><label for="s1">Freight</label>
+          <input type="radio" name="service" id="s2" value="Vehicles & titles"><label for="s2">Vehicle / title</label>
+          <input type="radio" name="service" id="s3" value="Procurement & sourcing"><label for="s3">Sourcing</label>
+          <input type="radio" name="service" id="s4" value="Warehousing"><label for="s4">Warehousing</label>
+          <input type="radio" name="service" id="s5" value="Construction"><label for="s5">Construction</label>
+          <input type="radio" name="service" id="s6" value="Marketing & other services"><label for="s6">Other</label>
+        </div>
+      </div>
+      <div class="f"><label for="fname">Full name</label><input id="fname" name="fullname" autocomplete="name" required></div>
+      <div class="f"><label for="femail">Email</label><input id="femail" name="email" type="email" autocomplete="email" required></div>
+      <div class="f"><label for="fphone">Phone / WhatsApp</label><input id="fphone" name="phone" type="tel" autocomplete="tel"></div>
+      <div class="f"><label for="fdest">Destination</label>
+        <select id="fdest" name="dest">
+          <option>Lagos, Nigeria</option><option>Onne, Nigeria</option><option>Accra, Ghana</option><option>Dakar, Senegal</option><option>Douala, Cameroon</option><option>Somewhere else</option><option>Not shipping</option>
+        </select>
+      </div>
+      <div class="f full"><label for="fmsg">What are you shipping or buying?</label><textarea id="fmsg" name="msg" placeholder="e.g. 2007 Toyota Sienna and household goods, ready in November, door to port"></textarea></div>
+      <div class="form-foot">
+        <small>For an urgent problem with cargo already in transit, call the emergency line.</small>
+        <button class="btn primary" type="submit">Send request</button>
+      </div>
+      <p class="sent" id="sent" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a href="#top" style="background:#fff;padding:14px 18px;display:inline-block;border-radius:6px"><img src="img/logo.png" alt="SG Resources Inc. Shipping, logistics and procurement." width="670" height="520" style="height:120px;width:auto;display:block"></a>
+      <p style="margin-top:16px;max-width:40ch">Shipping, logistics and procurement from Stafford, Texas, serving the Houston area.</p>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Freight forwarding</a></li>
+        <li><a href="#services">Vehicles &amp; titles</a></li>
+        <li><a href="#services">Procurement &amp; sourcing</a></li>
+        <li><a href="#services">Warehousing</a></li>
+        <li><a href="#services">Construction</a></li>
+        <li><a href="#services">Marketing, notary &amp; more</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li>2638 5th St., Ste. 15, Stafford, TX 77477</li>
+        <li>Office 281.969.5788</li>
+        <li>Emergency 713.281.8657</li>
+        <li>info@sgresourcesinc.com</li>
+        <li><a href="https://www.instagram.com/sgresources.inc/">Instagram @sgresources.inc</a></li>
+      </ul>
+    </div>
+    <p class="credits">Photos from Wikimedia Commons: Bayport Container Terminal by <a href="https://commons.wikimedia.org/wiki/File:Bayport_Container_Terminal_Aerial_-_Near_Houston_(43373625235).jpg">formulanone</a> (CC BY-SA 2.0); car carrier by <a href="https://commons.wikimedia.org/wiki/File:Car_carrier_vessel_HOEGH_SUNLIGHT_underway.jpg">IikaJzuchiN</a> (CC BY 4.0); Port of Houston cargo by <a href="https://commons.wikimedia.org/wiki/File:General_cargo_for_export_from_the_Port_of_Houston_docks_(7005519857).jpg">Roy Luck</a> (CC BY 2.0); 747 freighter by <a href="https://commons.wikimedia.org/wiki/File:Cathay_Pacific_747_Freighter_starting_its_takeoff_roll_(6259573540).jpg">Frank Kovalchek</a> (CC BY 2.0); warehouse by <a href="https://commons.wikimedia.org/wiki/File:Modern_warehouse_with_pallet_rack_storage_system.jpg">Axisadman</a> (CC BY-SA 3.0); Apapa port by <a href="https://commons.wikimedia.org/wiki/File:Apapa_port.lagos.jpg">Quadrex24</a> (CC BY-SA 4.0). Photos have been resized and cropped. The ships, aircraft and facilities shown are not affiliated with SG Resources.</p>
+    <div class="legal">
+      <span>© SG Resources Inc</span>
+      <span><a href="https://www.sgresourcesinc.com/accessibility-statement">Accessibility</a> · <a href="https://www.sgresourcesinc.com/english-privacy-policy">Privacy</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="notes-btn" id="notesBtn" aria-expanded="false" aria-controls="notes">Redesign notes</button>
+<aside class="notes" id="notes" hidden aria-label="Redesign notes">
+  <button class="close" id="notesClose">Close</button>
+  <p class="eyebrow">For the SG Resources team</p>
+  <h2 style="margin-top:10px">Redesign notes</h2>
+  <p class="intro">Version 3: this version uses the real logo artwork and adds logistics photos. The colors match the logo, and the copy sticks to what the company has stated publicly.</p>
+
+  <h3>About the photos</h3>
+  <ul>
+    <li><b>They're free-license stand-ins from Wikimedia Commons</b><span>They can be used commercially if the photographer is credited, as in the footer. Two of them (the warehouse and the Lagos port photo) are CC BY-SA.</span></li>
+    <li><b>Labeled honestly</b><span>The warehouse photo says “not our facility”. The ship and plane photos are labeled “illustrative”, and the footer says the carriers shown aren't affiliated with SG Resources.</span></li>
+    <li><b>Replace them with your own over time</b><span>Photos of your own cars being loaded, your containers and your Stafford office will build more trust than stock photos. Your Instagram “Automobile” and “Shipping” highlights are a good place to start.</span></li>
+    <li><b>Current site images</b><span>The images on the current site are Wix stock photos (licensed only for use on Wix sites) or AI-looking graphics, so I didn't reuse them.</span></li>
+  </ul>
+
+  <h3>Colors from the logo</h3>
+  <div class="swatches"><i style="background:#F36C05;color:#2A0325">#F36C05</i><i style="background:#4B0542">#4B0542</i><i style="background:#6D6D6D">#6D6D6D</i></div>
+  <p class="src" style="margin-top:8px">Orange is the globe and “RESOURCES”, plum is the swoosh and “SG”, grey is “INC.” and the tagline. The header uses the original logo, split into the globe and the wordmark so it fits on one line. A vector (SVG) version of the logo would look sharper; ask whoever designed it.</p>
+
+  <h3>What I found in research</h3>
+  <ul>
+    <li><b>Vehicles are the core business</b><span>Public U.S. export records list about 396 export shipments from the Stafford address, mostly vehicles (Toyota, Lexus, vans). This redesign puts vehicles and freight first.</span></li>
+    <li><b>Instagram says “Licensed Logistics Hub”</b><span>The site never says which licenses. Name them (dealer license, FMC/OTI number if you have one) or remove the word “licensed”.</span></li>
+    <li><b>Directory listings show a different phone number</b><span>Some directories list 254-247-6934. Update those listings or the website so they match.</span></li>
+    <li><b>Directories list you as women-owned</b><span>If you hold a certification (WBE, WOSB), show it. It helps on commercial and government jobs.</span></li>
+    <li><b>Your Instagram bio includes a China flag</b><span>If you source from China, say so in the procurement section. It's a strong selling point.</span></li>
+  </ul>
+  <p class="src" style="margin-top:10px">Sources: <a href="https://panjiva.com/Sg-Resources-Inc/59871297">Panjiva</a>, <a href="https://www.instagram.com/sgresources.inc/">Instagram</a>, <a href="https://www.buzzfile.com/business/Sg-Resources-Inc-281-969-5788">Buzzfile</a>, <a href="https://www.zoominfo.com/c/sg-resources-inc/373128126">ZoomInfo</a>, <a href="https://www.findforwarders.com/united-states/stafford/logistics-supply-chain-services/sg-resources-inc">FindForwarders</a></p>
+
+  <h3>What I removed for honesty</h3>
+  <ul>
+    <li><b>“Departures board” with live-looking status lights</b><span>It suggested a published schedule. It's now a plain list of routes, noting that dates depend on the carrier.</span></li>
+    <li><b>Port codes, “Rail” and “Land”</b><span>The site doesn't show these services, so I took them out.</span></li>
+    <li><b>“30+ years” as a headline stat</b><span>That's one person's experience, in construction. It now appears only in the Construction section.</span></li>
+    <li><b>“Unparalleled”, “premier”, “powerhouse”, “global excellence”</b><span>Customers read these as filler. I replaced them with plain descriptions of the work.</span></li>
+    <li><b>Customs clearance claims</b><span>The site says “assistance”. The vehicle steps now show who does what at the destination.</span></li>
+  </ul>
+
+  <h3>Please confirm before launch</h3>
+  <ul>
+    <li><b>Is air and sea still weekly to all five ports?</b><span>Onne is a seaport only, so “air” can't apply there.</span></li>
+    <li><b>What is the FAAN Complex office?</b><span>A cargo office at the Lagos airport? Say what customers can do there.</span></li>
+    <li><b>Do you have your own warehouse or use a partner's?</b><span>“Our warehouse facilities” needs to be accurate.</span></li>
+  </ul>
+
+  <h3>Broken on the live site</h3>
+  <ul>
+    <li><b>Emergency number link dials tel:1234567890</b></li>
+    <li><b>Social icons link to Wix's own accounts</b><span>Link them to @sgresources.inc and your Facebook page.</span></li>
+    <li><b>Wix placeholder text on every service page</b><span>“This is a Paragraph. Click on Edit Text…”</span></li>
+    <li><b>Typos</b><span>“Forwading” and “Fowarding” (also in a page URL), “Suit 5B”, “MARKETING &amp;TITLE”.</span></li>
+  </ul>
+
+  <h3>Suggested additions</h3>
+  <ol>
+    <li><b>WhatsApp button</b><span>This is how most customers in West Africa will want to reach you.</span></li>
+    <li><b>Real proof from Instagram</b><span>Your “Review” and “Automobile” highlights already exist. Put real photos and customer reviews (with permission) on the site.</span></li>
+    <li><b>A detailed guide to shipping a car to Nigeria</b><span>Documents, vehicle age limits, duties and timelines. It's your strongest chance to be found on Google.</span></li>
+    <li><b>Sailing dates and cut-off dates</b><span>Even a monthly list would answer the most common question.</span></li>
+    <li><b>FAQ</b><span>Items you can't ship, insurance, payment methods, and typical time to clear customs.</span></li>
+    <li><b>Separate page or brand for marketing and DOT testing</b><span>They dilute the shipping message.</span></li>
+  </ol>
+</aside>
+
+<script>
+(function(){
+  const mb=document.getElementById('menuBtn'),nl=document.getElementById('navlinks');
+  mb.addEventListener('click',()=>{const o=nl.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+  nl.addEventListener('click',e=>{if(e.target.tagName==='A'){nl.classList.remove('open');mb.setAttribute('aria-expanded','false')}});
+
+  const tabs=[...document.querySelectorAll('.tab')];
+  function select(t,focus){
+    tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on});
+    if(focus)t.focus();
+  }
+  tabs.forEach((t,i)=>{
+    t.addEventListener('click',()=>select(t));
+    t.addEventListener('keydown',e=>{
+      let j=null;
+      if(e.key==='ArrowDown'||e.key==='ArrowRight')j=(i+1)%tabs.length;
+      if(e.key==='ArrowUp'||e.key==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;
+      if(e.key==='Home')j=0;if(e.key==='End')j=tabs.length-1;
+      if(j!==null){e.preventDefault();select(tabs[j],true)}
+    });
+  });
+
+  document.querySelectorAll('[data-service]').forEach(a=>a.addEventListener('click',()=>{
+    const r=document.querySelector('#svcSeg input[value="'+a.dataset.service+'"]');if(r)r.checked=true;
+  }));
+
+  document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+    const v=b.dataset.copy,orig=b.textContent;
+    try{await navigator.clipboard.writeText(v);b.textContent='Copied ✓';setTimeout(()=>b.textContent=orig,1400)}
+    catch(_){const r=document.createRange();r.selectNodeContents(b);const s=getSelection();s.removeAllRanges();s.addRange(r)}
+  }));
+
+  function tick(){document.querySelectorAll('.clock').forEach(c=>{
+    try{c.textContent=new Intl.DateTimeFormat('en-US',{hour:'numeric',minute:'2-digit',timeZone:c.dataset.tz}).format(new Date())}catch(_){}
+  })}
+  tick();setInterval(tick,30000);
+
+  const f=document.getElementById('quoteForm'),sent=document.getElementById('sent');
+  f.addEventListener('submit',e=>{
+    e.preventDefault();
+    const nm=f.elements.fullname,em=f.elements.email;
+    sent.hidden=false;
+    if(!nm.value.trim()||!/^\S+@\S+\.\S+$/.test(em.value.trim())){
+      sent.className='sent err';
+      sent.textContent='Enter your name and a valid email address so we can reply.';
+      (!nm.value.trim()?nm:em).focus();return;
+    }
+    sent.className='sent';
+    sent.textContent='Preview only: nothing was sent. On the live site, this request would go to info@sgresourcesinc.com.';
+  });
+
+  const nb=document.getElementById('notesBtn'),nd=document.getElementById('notes'),nc=document.getElementById('notesClose');
+  function setNotes(o){nd.hidden=!o;nb.setAttribute('aria-expanded',o);(o?nc:nb).focus()}
+  nb.addEventListener('click',()=>setNotes(nd.hidden));
+  document.getElementById('openNotes').addEventListener('click',()=>setNotes(true));
+  nc.addEventListener('click',()=>setNotes(false));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!nd.hidden)setNotes(false)});
+})();
+</script>
+
+</body>
+</html>
