@@ -233,8 +233,8 @@ form.card{background:var(--surface);border:1px solid var(--line);border-radius:6
 .f input,.f select,.f textarea{font:16px/1.4 var(--body);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:3px;padding:12px 13px;width:100%}
 .f textarea{min-height:110px;resize:vertical}
 .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--plum);box-shadow:0 0 0 3px color-mix(in srgb,var(--orange) 45%,transparent)}
-.seg{display:flex;flex-wrap:wrap;gap:8px}
-.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg{display:flex;flex-wrap:wrap;gap:8px;position:relative}
+.seg input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
 .seg label{font:500 15px/1 var(--body);color:var(--ink);border:1px solid var(--line);padding:10px 14px;cursor:pointer;background:var(--ground);border-radius:3px}
 .seg input:checked+label{background:var(--plum);color:#fff;border-color:var(--plum)}
 .seg input:focus-visible+label{outline:3px solid var(--orange);outline-offset:2px}
