@@ -139,7 +139,7 @@ nav.links a:hover{border-color:var(--orange)}
 }
 
 /* hero */
-.hero{padding-block:clamp(48px,8vw,104px) clamp(64px,8vw,112px);position:relative;overflow:hidden;background:#2E0229 url("img/hero-bayport.jpg") center/cover no-repeat;color:#fff}
+.hero{padding-block:clamp(48px,8vw,104px) clamp(64px,8vw,112px);position:relative;overflow:hidden;background:#2E0229 url("../img/hero-bayport.jpg") center/cover no-repeat;color:#fff}
 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(46,2,41,.94) 0%,rgba(46,2,41,.82) 42%,rgba(46,2,41,.35) 100%);pointer-events:none}
 @media (max-width:960px){.hero::before{background:linear-gradient(180deg,rgba(46,2,41,.35) 0%,rgba(46,2,41,.72) 40%,rgba(46,2,41,.88) 100%)}}
 @media (max-width:960px){.hero h1,.hero .lede,.hero .motto-line{text-shadow:0 1px 12px rgba(46,2,41,.6)}}
