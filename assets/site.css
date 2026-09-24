@@ -335,7 +335,7 @@ nav.links a[aria-current="page"]{border-color:var(--orange)}
 .hours{font-size:15px;color:var(--plum-dim)}
 
 /* page hero (service pages) */
-.page-hero{position:relative;overflow:hidden;color:#fff;background:#2E0229 var(--bg,none) center/cover no-repeat;padding-block:clamp(40px,6vw,80px) clamp(44px,6vw,84px)}
+.page-hero{position:relative;overflow:hidden;color:#fff;background-color:#2E0229;background-position:center;background-size:cover;background-repeat:no-repeat;padding-block:clamp(40px,6vw,80px) clamp(44px,6vw,84px)}
 .page-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(46,2,41,.95) 0%,rgba(46,2,41,.85) 50%,rgba(46,2,41,.45) 100%)}
 @media (max-width:760px){.page-hero::before{background:linear-gradient(180deg,rgba(46,2,41,.6),rgba(46,2,41,.9) 45%)}}
 .page-hero .wrap{position:relative}
