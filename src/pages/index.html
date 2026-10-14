@@ -1,4 +1,4 @@
-<!--meta title=SG Resources Redesign | desc=Shipping, logistics and procurement from Stafford, Texas: freight forwarding, vehicle export and titles, sourcing and warehousing. | cur=home | service= -->
+<!--meta title=SG Resources Inc · Shipping, Logistics & Procurement in Houston | desc=Shipping, logistics and procurement from Stafford, Texas: freight forwarding, vehicle export and titles, sourcing and warehousing. | cur=home | service= -->
 <section class="hero">
   <div class="wrap">
     <div>
@@ -330,8 +330,9 @@
       </div>
     </aside>
 
-    <form class="card" id="quoteForm" novalidate>
-      <p class="proto">This is a design preview. “Send request” doesn't send anything yet. “Send on WhatsApp” opens WhatsApp with your details filled in, and you choose whether to send.</p>
+    <form class="card" id="quoteForm" method="POST"{{FORM_ACTION}} data-endpoint="{{FORM_ENDPOINT}}" novalidate>
+      <input type="hidden" name="_subject" value="Website quote request">
+      <div class="hp" aria-hidden="true"><label for="fhp">Leave this empty</label><input id="fhp" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <div class="f full">
         <span class="lbl" id="svcLbl">What do you need?</span>
         <div class="seg" id="svcSeg" role="radiogroup" aria-labelledby="svcLbl">

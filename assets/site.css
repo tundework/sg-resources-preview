@@ -402,3 +402,6 @@ nav.links a[aria-current="page"]{border-color:var(--orange)}
 .policy ul{margin:10px 0 0;padding-left:22px;display:grid;gap:8px}
 .policy .sign{margin-top:32px;font:600 italic 20px/1.4 var(--body);color:var(--plum)}
 .policy .meta{margin-top:16px;font:500 12px/1.5 var(--mono);color:var(--muted)}
+
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-foot small a{color:var(--orange-text)}

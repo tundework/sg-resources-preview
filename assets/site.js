@@ -77,27 +77,39 @@
       if(waSend)waSend.href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(lines.join('\n'));
     }
     f.addEventListener('input',waText);f.addEventListener('change',waText);waText();
-    f.addEventListener('submit',e=>{
+    const MAILTO='info@sgresourcesinc.com';
+    function summary(){
+      const v=n=>(f.elements[n]&&f.elements[n].value||'').trim();
+      const svc=(f.querySelector('input[name=service]:checked')||{}).value||'';
+      return ['Service: '+svc,'Name: '+v('fullname'),'Email: '+v('email'),'Phone / WhatsApp: '+v('phone'),'Destination: '+v('dest'),'','Details:',v('msg')].join('\n');
+    }
+    function show(ok,msg){sent.hidden=false;sent.className=ok?'sent':'sent err';sent.textContent=msg}
+    f.addEventListener('submit',async e=>{
       e.preventDefault();
       const nm=f.elements.fullname,em=f.elements.email;
-      sent.hidden=false;
       if(!nm.value.trim()||!/^\S+@\S+\.\S+$/.test(em.value.trim())){
-        sent.className='sent err';
-        sent.textContent='Enter your name and a valid email address so we can reply.';
+        show(false,'Enter your name and a valid email address so we can reply.');
         (!nm.value.trim()?nm:em).focus();return;
       }
-      sent.className='sent';
-      sent.textContent='Preview only: nothing was sent. On the live site, this request would go to info@sgresourcesinc.com.';
+      if(f.elements._gotcha&&f.elements._gotcha.value)return; // spam bot
+      const endpoint=f.dataset.endpoint;
+      const btn=f.querySelector('button[type=submit]');
+      if(!endpoint){
+        // no form service configured yet: hand the request to the visitor's email app
+        location.href='mailto:'+MAILTO+'?subject='+encodeURIComponent('Website quote request')+'&body='+encodeURIComponent(summary());
+        show(true,"Your email app should open with your request filled in. If it doesn't, email us at "+MAILTO+" or use WhatsApp.");
+        return;
+      }
+      btn.disabled=true;const label=btn.textContent;btn.textContent='Sending…';
+      try{
+        const r=await fetch(endpoint,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});
+        if(!r.ok)throw new Error(r.status);
+        f.reset();waText();
+        show(true,"Thanks, your request was sent. We'll reply by email.");
+      }catch(_){
+        show(false,"Your request couldn't be sent. Please try again, email us at "+MAILTO+", or message us on WhatsApp.");
+      }finally{btn.disabled=false;btn.textContent=label}
     });
   }
 
-  // redesign notes drawer
-  const nb=$('notesBtn'),nd=$('notes'),nc=$('notesClose');
-  if(nb&&nd&&nc){
-    function setNotes(o){nd.hidden=!o;nb.setAttribute('aria-expanded',o);(o?nc:nb).focus()}
-    nb.addEventListener('click',()=>setNotes(nd.hidden));
-    const on=$('openNotes');if(on)on.addEventListener('click',()=>setNotes(true));
-    nc.addEventListener('click',()=>setNotes(false));
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!nd.hidden)setNotes(false)});
-  }
 })();
