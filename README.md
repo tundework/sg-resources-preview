@@ -1,25 +1,36 @@
-# SG Resources Inc — website redesign preview
+# SG Resources Inc website
 
-A proposed homepage redesign for [sgresourcesinc.com](https://www.sgresourcesinc.com/), shared with the SG Resources team for review.
-This is a design preview, not the live site. The forms don't send anything, and search engines are asked not to index it.
-
-**Live preview:** https://tundework.github.io/sg-resources-preview/
+The website for [SG Resources Inc](https://www.sgresourcesinc.com/): shipping, logistics and procurement from Stafford, Texas.
+It's a static site hosted on GitHub Pages.
 
 ## Pages
 
 - `index.html`: homepage (services, FAQ, offices, quote form)
 - `freight-forwarding.html`, `vehicles.html` (includes the U.S. car export checklist), `procurement.html`, `warehousing.html`, `construction.html`, `other-services.html`
-- `shipping-policy.html`: shipping & liability policy
+- `shipping-policy.html`, `privacy.html`, `accessibility.html`, `404.html`
+- Redirect pages for the old Wix addresses (for example `freight-fowarding-logistic-services.html`), so existing links and search results still work
 
 ## Editing
 
 Edit the files in `src/`, not the generated `.html` files in the root:
 
-- `src/_top.html` and `src/_bottom.html`: header, footer and redesign notes, shared by every page
+- `src/_top.html` and `src/_bottom.html`: header and footer, shared by every page
 - `src/pages/*.html`: the content of each page
 - `assets/site.css` and `assets/site.js`: styles and scripts
+- `build.py`: site settings (domain, WhatsApp number, Formspree form ID, old-URL redirects)
 
-Then run `python build.py` to regenerate the pages, and commit.
+Then run `python build.py` to regenerate the pages and `sitemap.xml`, and commit.
+
+## Quote form
+
+The form sends requests to info@sgresourcesinc.com through [Formspree](https://formspree.io/).
+Set `FORMSPREE_ID` in `build.py` to the form ID, then rebuild. While it's empty, "Send request" opens the visitor's email app instead.
+"Send on WhatsApp" works either way.
+
+## Photos
+
+The photos are free-license stand-ins from Wikimedia Commons, credited in the footer. To use your own, replace the files in `img/` with the same names
+(or change the paths in `src/`), and update the credits line in `src/_bottom.html`.
 
 ## Image credits
 
